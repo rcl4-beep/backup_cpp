@@ -15,7 +15,7 @@ protected:
     friend class GerenciadorBD;
 public:
 
-    Conta(int numero, string titular, double saldoInicial);
+    Conta(int numero, string titular, double saldoInicial, string username_dono);
 
     virtual ~Conta();
 
@@ -32,3 +32,4 @@ public:
 };
 
 #endif
+
