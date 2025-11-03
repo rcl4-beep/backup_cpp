@@ -3,7 +3,7 @@
 #include "ContaCorrente.h"
 #include "ContaPoupanca.h"
 
-// --- Função de Hashing (INSEGURA, apenas para exemplo!) ---
+// --- Função de Hashing  ---
 std::string hashSenhaSimples(const std::string& senha) {
     std::string hash = "";
     for (int i = senha.length() - 1; i >= 0; i--) {
@@ -73,7 +73,7 @@ void GerenciadorBD::criarTabelaUsuarios() {
     }
 }
 
-// --- NOVO Método Auxiliar ---
+// --- Método Auxiliar ---
 int GerenciadorBD::getProximoNumeroConta() {
     sqlite3_stmt* stmt;
     const char* sql = "SELECT MAX(NUMERO) FROM Contas;";
@@ -89,12 +89,12 @@ int GerenciadorBD::getProximoNumeroConta() {
     }
     sqlite3_finalize(stmt);
     
-    // Garante que CC e CP não tenham o mesmo número (ex: 101 e 102)
+    // Garante que CC e CP não tenham o mesmo número 
     // Esta é uma lógica simples, assume que o próximo + 1 também está vago
     return proximoNumero;
 }
 
-// --- Métodos de Usuário (ATUALIZADOS) ---
+// --- Métodos de Usuário  ---
 
 bool GerenciadorBD::registrarUsuario(const std::string& usuario, const std::string& senha, const std::string& nomeCompleto, double saldoInicialCC, double saldoInicialCP) {
     if (!db) return false;
@@ -121,7 +121,7 @@ bool GerenciadorBD::registrarUsuario(const std::string& usuario, const std::stri
     }
     sqlite3_finalize(stmt);
 
-    // 4. SUCESSO! Agora, criar as contas bancárias para este usuário
+    // 4. Criar as contas bancárias para este usuário
     std::cout << "\n[SUCESSO] Usuário registrado! Criando contas bancárias..." << std::endl;
 
     int numCC = getProximoNumeroConta();
@@ -168,13 +168,13 @@ bool GerenciadorBD::verificarLogin(const std::string& usuario, const std::string
     }
 }
 
-// --- Métodos de Conta (ATUALIZADOS) ---
+// --- Métodos de Conta ---
 
 bool GerenciadorBD::salvarConta(Conta& conta) {
     if (!db) return false;
 
     sqlite3_stmt* stmt;
-    // SQL ATUALIZADO (7 colunas)
+    // SQL ATUALIZADO
     const char* sql = "INSERT OR REPLACE INTO Contas (NUMERO, TITULAR, SALDO, TIPO, TAXAOPERACAO, RENDIMENTO, USERNAME_DONO) "
                       "VALUES (?, ?, ?, ?, ?, ?, ?);"; // 7 '?'
 

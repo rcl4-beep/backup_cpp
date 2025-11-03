@@ -6,25 +6,20 @@
 #include "GerenciadorBD.h"
 using namespace std;
 
-/**
- * Função ATUALIZADA
- * Agora ela opera nas contas carregadas do usuário que fez login.
- */
+
 void rodarAppPrincipal(GerenciadorBD& gerenciador, const std::string& usuarioLogado) {
     
-    // 1. Cria objetos "Dummy" (vazios) que serão preenchidos
-    // (Usamos valores padrão que serão sobrescritos)
     ContaCorrente c1(0, "", 0.0, "", 0.0);
     ContaPoupanca p1(0, "", 0.0, "", 0.0);
 
-    // 2. Carrega os dados reais do BD para dentro de c1 e p1
+    // Carrega os dados reais do BD para dentro de c1 e p1
     cout << "\nCarregando contas do usuário " << usuarioLogado << "..." << endl;
     if (!gerenciador.carregarContasDoUsuario(usuarioLogado, c1, p1)) {
         cout << "Erro fatal: não foi possível carregar as contas do usuário." << endl;
         return;
     }
 
-    // 3. Inicia o Menu
+    //  Inicia o Menu
     int num_op;
     double val_op;
     int conta_ativa = 1; // 1=CC, 2=CP
@@ -32,7 +27,7 @@ void rodarAppPrincipal(GerenciadorBD& gerenciador, const std::string& usuarioLog
     cout << "\n=== App Principal do Banco ===" << endl;
     cout << "Bem-vindo, " << c1.getTitular() << "!" << endl;
 
-    // --- NOVO MENU DE SELEÇÃO DE CONTA ---
+    // --- Menu seleção de conta ---
     while (true) {
         cout << "\n--- Menu Principal ---" << endl;
         if (conta_ativa == 1) {
@@ -92,7 +87,7 @@ void rodarAppPrincipal(GerenciadorBD& gerenciador, const std::string& usuarioLog
         }
     }
 
-    // 4. Ao sair do loop, salva o estado final de AMBAS as contas
+    // Ao sair do loop, salva o estado final de AMBAS as contas
     cout << "Salvando dados das contas..." << endl;
     gerenciador.salvarConta(c1);
     gerenciador.salvarConta(p1);
@@ -101,7 +96,7 @@ void rodarAppPrincipal(GerenciadorBD& gerenciador, const std::string& usuarioLog
 }
 
 
-// --- PONTO DE ENTRADA (MAIN) ATUALIZADO ---
+// --- Ponto de entrada MAIN ---
 int main() {
     GerenciadorBD gerenciador("banco_contas.db");
 

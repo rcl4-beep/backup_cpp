@@ -1,7 +1,7 @@
 #include "Conta.h"
 #include <iostream>
 
-// Construtor ATUALIZADO
+
 Conta::Conta(int numero, string titular, double saldoInicial, string username_dono)
     : numero(numero), titular(titular), saldo(saldoInicial), username_dono(username_dono) {
     // Construtor da classe base
@@ -15,7 +15,7 @@ int Conta::getNumero() const { return numero; }
 string Conta::getTitular() const { return titular; }
 double Conta::getSaldo() const { return saldo; }
 
-// Métodos (estes são exemplos, use os seus se já os implementou)
+// Métodos 
 void Conta::depositar(double valor) {
     if (valor > 0) {
         saldo += valor;
@@ -27,5 +27,4 @@ void Conta::depositar(double valor) {
 
 void Conta::exibir() const {
     std::cout << "Titular: " << titular << " | Número: " << numero << " | Saldo: R$" << saldo;
-    // Não exibimos o 'username_dono' por segurança
 }

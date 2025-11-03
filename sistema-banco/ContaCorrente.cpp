@@ -1,14 +1,14 @@
 #include "ContaCorrente.h"
 #include <iostream>
 
-// Construtor ATUALIZADO
+// Construtor 
 ContaCorrente::ContaCorrente(int numero, string titular, double saldoInicial, string username_dono, double taxaManutencao)
     : Conta(numero, titular, saldoInicial, username_dono), // Chama o construtor da classe base
       taxaManutencao(taxaManutencao) {
     // Construtor da classe filha
 }
 
-// Métodos (exemplos, use os seus)
+// Métodos 
 bool ContaCorrente::sacar(double valor) {
     double valorTotal = valor + taxaManutencao;
     if (valor <= 0) {
