@@ -19,12 +19,23 @@ public:
 
    
     bool salvarConta(Conta& conta);
-    bool carregarConta(Conta& conta);
+    bool carregarContasDoUsuario(
+        const std::string& username, 
+        ContaCorrente& cc_para_preencher, 
+        ContaPoupanca& cp_para_preencher
+    );
 
     
-    bool registrarUsuario(const std::string& usuario, const std::string& senha);
+    bool registrarUsuario(
+        const std::string& usuario, 
+        const std::string& senha, 
+        const std::string& nomeCompleto,
+        double saldoInicialCC,
+        double saldoInicialCP
+    );
+
     bool verificarLogin(const std::string& usuario, const std::string& senha);
 };
 
+#endif //SISTEMA_BANCO_GERENCIADORBD_H
 
-#endif
