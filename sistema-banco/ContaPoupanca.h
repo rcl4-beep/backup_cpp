@@ -12,7 +12,7 @@ private:
 
     friend class GerenciadorBD;
 public:
-    ContaPoupanca(int numero, string titular, double saldoInicial, double taxaRendimento);
+    ContaPoupanca(int numero, string titular, double saldoInicial, string username_dono, double taxaRendimento);
 
     bool sacar(double valor) override; // implementação do saqu
 
@@ -21,3 +21,4 @@ public:
 };
 
 #endif
+
