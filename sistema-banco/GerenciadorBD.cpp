@@ -45,7 +45,10 @@ void GerenciadorBD::criarTabelaContas() {
         "SALDO REAL NOT NULL, "
         "TIPO INT NOT NULL, "
         "TAXAOPERACAO REAL, "
-        "RENDIMENTO REAL);";
+        "RENDIMENTO REAL),
+        "USERNAME_DONO TEXT NOT NULL,
+        "FOREIGN KEY(USERNAME_DONO) REFERENCES Usuarios(USERNAME)"
+        ");";
 
     char* errMsg = 0;
     int resultado = sqlite3_exec(db, sql, 0, 0, &errMsg);
@@ -229,4 +232,5 @@ bool GerenciadorBD::verificarLogin(const std::string& usuario, const std::string
     }
 
 }
+
 
