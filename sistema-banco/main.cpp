@@ -1,32 +1,29 @@
 #include <iostream>
 #include <string>
-#include <limits> // Para limpar o buffer de entrada
+#include <limits> 
 #include "ContaCorrente.h"
 #include "ContaPoupanca.h"
 #include "GerenciadorBD.h"
 using namespace std;
 
-/**
- * Esta função contém toda a lógica do banco que já fizemos.
- * Ela só será chamada DEPOIS do login.
- */
+
 void rodarAppPrincipal(GerenciadorBD& gerenciador) {
-    // 1. Define os valores iniciais (padrão) das contas
+    
     ContaCorrente c1(101, "Tiago Mattos", 1000.0, 15.0);
     ContaPoupanca p1(202, "Maria Silva", 5000.0, 0.02);
 
-    // 2. Tenta carregar os dados salvos do BD
+    
     cout << "\nCarregando contas do banco de dados..." << endl;
     gerenciador.carregarConta(c1);
     gerenciador.carregarConta(p1);
 
-    // 3. Inicia o Menu (focado na c1, como no seu original)
+    
     int num_op;
     double val_op;
 
     cout << "\n=== App Principal do Banco ===";
     cout << "\n=== Conta Corrente ===";
-    c1.exibir(); // Mostra o saldo atual (carregado do BD)
+    c1.exibir(); 
     cout << "Selecione a operação que deseja realizar:\n";
     cout << "(1) Exibir Saldo\n";
     cout << "(2) Depositar\n";
@@ -49,7 +46,7 @@ void rodarAppPrincipal(GerenciadorBD& gerenciador) {
             c1.sacar(val_op);
         }
 
-        // Limpar buffer de entrada se o usuário digitar algo inválido
+        
         if (cin.fail()) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -60,7 +57,7 @@ void rodarAppPrincipal(GerenciadorBD& gerenciador) {
         cin >> num_op;
     }
 
-    // 4. Ao sair do loop (opção 4), salva o estado final
+    
     cout << "Salvando dados das contas..." << endl;
     gerenciador.salvarConta(c1);
     gerenciador.salvarConta(p1);
@@ -69,16 +66,16 @@ void rodarAppPrincipal(GerenciadorBD& gerenciador) {
 }
 
 
-// --- O NOVO PONTO DE ENTRADA (MAIN) ---
+
 int main() {
-    // 1. Conecta ao Banco de Dados (Isso cria as tabelas Usuarios e Contas)
+   
     GerenciadorBD gerenciador("banco_contas.db");
 
     int escolha = 0;
     string usuario, senha;
     bool loginEfetuado = false;
 
-    // 2. Loop de Login/Cadastro
+    
     while (!loginEfetuado) {
         cout << "\n--- BEM-VINDO AO SISTEMA BANCÁRIO ---" << endl;
         cout << "1. Fazer Login" << endl;
@@ -88,7 +85,7 @@ int main() {
 
         cin >> escolha;
 
-        // Limpar buffer de entrada
+        
         if (cin.fail()) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -96,33 +93,33 @@ int main() {
             continue;
         }
 
-        if (escolha == 1) { // Login
+        if (escolha == 1) { 
             cout << "Usuário: ";
             cin >> usuario;
             cout << "Senha: ";
             cin >> senha;
 
             if (gerenciador.verificarLogin(usuario, senha)) {
-                loginEfetuado = true; // Quebra o loop 'while'
+                loginEfetuado = true; 
             }
 
-        } else if (escolha == 2) { // Registrar
+        } else if (escolha == 2) { 
             cout << "Novo Usuário: ";
             cin >> usuario;
             cout << "Nova Senha: ";
             cin >> senha;
             gerenciador.registrarUsuario(usuario, senha);
 
-        } else if (escolha == 3) { // Sair
+        } else if (escolha == 3) { 
             cout << "Saindo..." << endl;
-            return 0; // Termina o programa
+            return 0; 
         }
     }
 
-    // 3. Se o loop 'while' terminar, o login foi um sucesso.
-    // Agora, rodamos a aplicação principal do banco.
+    
     rodarAppPrincipal(gerenciador);
 
     cout << "Programa encerrado." << endl;
     return 0;
+
 }
