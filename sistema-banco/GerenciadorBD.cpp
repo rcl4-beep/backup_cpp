@@ -35,9 +35,9 @@ GerenciadorBD::~GerenciadorBD() {
     }
 }
 
-// --- Funções de Tabela ---
 
-void GerenciadorBD::criarTabelaContas() { // <-- Renomeado
+
+void GerenciadorBD::criarTabelaContas() {
     const char* sql =
         "CREATE TABLE IF NOT EXISTS Contas ("
         "NUMERO INT PRIMARY KEY NOT NULL, "
@@ -59,7 +59,7 @@ void GerenciadorBD::criarTabelaContas() { // <-- Renomeado
     }
 }
 
-void GerenciadorBD::criarTabelaUsuarios() { // <-- NOVA FUNÇÃO
+void GerenciadorBD::criarTabelaUsuarios() {
     const char* sql =
         "CREATE TABLE IF NOT EXISTS Usuarios ("
         "USERNAME TEXT PRIMARY KEY NOT NULL, "
@@ -78,12 +78,10 @@ void GerenciadorBD::criarTabelaUsuarios() { // <-- NOVA FUNÇÃO
 }
 
 
-// --- Funções de Conta (Sem mudanças) ---
 
 bool GerenciadorBD::salvarConta(Conta& conta) {
-    // ... (seu código de salvarConta que já funciona, sem nenhuma mudança) ...
     if (!db) return false;
-    // ... (resto do código) ...
+
     sqlite3_stmt* stmt;
     const char* sql = "INSERT OR REPLACE INTO Contas (NUMERO, TITULAR, SALDO, TIPO, TAXAOPERACAO, RENDIMENTO) "
                       "VALUES (?, ?, ?, ?, ?, ?);";
@@ -117,9 +115,9 @@ bool GerenciadorBD::salvarConta(Conta& conta) {
 }
 
 bool GerenciadorBD::carregarConta(Conta& conta) {
-    // ... (seu código de carregarConta que já funciona, sem nenhuma mudança) ...
+    
     if (!db) return false;
-    // ... (resto do código) ...
+    
     sqlite3_stmt* stmt;
     const char* sql = "SELECT TITULAR, SALDO, TIPO, TAXAOPERACAO, RENDIMENTO "
                       "FROM Contas WHERE NUMERO = ?;";
@@ -157,15 +155,15 @@ bool GerenciadorBD::carregarConta(Conta& conta) {
 }
 
 
-// --- NOVAS FUNÇÕES DE USUÁRIO ---
+
 
 bool GerenciadorBD::registrarUsuario(const std::string& usuario, const std::string& senha) {
     if (!db) return false;
 
-    // 1. Hashear a senha
+    
     std::string hash = hashSenhaSimples(senha);
 
-    // 2. Preparar o SQL para inserir
+  
     sqlite3_stmt* stmt;
     const char* sql = "INSERT INTO Usuarios (USERNAME, PASSWORD_HASH) VALUES (?, ?);";
 
@@ -177,10 +175,10 @@ bool GerenciadorBD::registrarUsuario(const std::string& usuario, const std::stri
     sqlite3_bind_text(stmt, 1, usuario.c_str(), -1, SQLITE_STATIC);
     sqlite3_bind_text(stmt, 2, hash.c_str(), -1, SQLITE_STATIC);
 
-    // 3. Executar
+
     int rc = sqlite3_step(stmt);
     if (rc != SQLITE_DONE) {
-        // SQLITE_CONSTRAINT é o erro para "chave primária duplicada" (usuário já existe)
+       
         if (rc == SQLITE_CONSTRAINT) {
             std::cerr << "\n[ERRO] Nome de usuário já existe." << std::endl;
         } else {
@@ -198,7 +196,7 @@ bool GerenciadorBD::registrarUsuario(const std::string& usuario, const std::stri
 bool GerenciadorBD::verificarLogin(const std::string& usuario, const std::string& senha) {
     if (!db) return false;
 
-    // 1. Preparar o SQL para buscar o hash
+    
     sqlite3_stmt* stmt;
     const char* sql = "SELECT PASSWORD_HASH FROM Usuarios WHERE USERNAME = ?;";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {
@@ -208,7 +206,7 @@ bool GerenciadorBD::verificarLogin(const std::string& usuario, const std::string
 
     sqlite3_bind_text(stmt, 1, usuario.c_str(), -1, SQLITE_STATIC);
 
-    // 2. Executar e verificar
+   
     int rc = sqlite3_step(stmt);
 
     if (rc == SQLITE_ROW) { // Encontrou o usuário
@@ -224,10 +222,11 @@ bool GerenciadorBD::verificarLogin(const std::string& usuario, const std::string
             std::cerr << "\n[ERRO] Senha incorreta." << std::endl;
             return false;
         }
-    } else { // Não encontrou o usuário (SQLITE_DONE)
+    } else { // Não encontrou o usuário 
         std::cerr << "\n[ERRO] Usuário não encontrado." << std::endl;
         sqlite3_finalize(stmt);
         return false;
     }
 
 }
+
