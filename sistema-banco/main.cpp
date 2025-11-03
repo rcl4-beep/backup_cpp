@@ -61,7 +61,12 @@ void rodarAppPrincipal(GerenciadorBD& gerenciador, const std::string& usuarioLog
         }
 
         // Processa a conta ativa (CC ou CP)
-        Conta* contaAtual = (conta_ativa == 1) ? &c1 : &p1;
+        Conta* contaAtual = nullptr; // Primeiro, inicialize o ponteiro
+        if (conta_ativa == 1) {
+            contaAtual = &c1; // Aqui a conversão para Conta* é implícita e válida
+        } else {
+            contaAtual = &p1; // Aqui também
+        }
 
         if (num_op == 1) {
             contaAtual->exibir();
@@ -159,3 +164,4 @@ int main() {
     cout << "Programa encerrado." << endl;
     return 0;
 }
+
