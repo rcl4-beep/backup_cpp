@@ -10,6 +10,7 @@ protected:
     int numero;
     string titular;
     double saldo;
+    string username_dono;
 
 
     friend class GerenciadorBD;
@@ -32,4 +33,5 @@ public:
 };
 
 #endif
+
 
