@@ -3,8 +3,7 @@
 #include "ContaCorrente.h"
 #include "ContaPoupanca.h"
 
-// --- Função de Hashing (INSEGURA, apenas para exemplo!) ---
-// ATENÇÃO: Não use isso em produção. Apenas para o projeto funcionar.
+// metodo para armazenar senhas
 std::string hashSenhaSimples(const std::string& senha) {
     std::string hash = "";
     for (int i = senha.length() - 1; i >= 0; i--) {
@@ -14,7 +13,7 @@ std::string hashSenhaSimples(const std::string& senha) {
 }
 
 
-// --- Construtor (Modificado) ---
+
 GerenciadorBD::GerenciadorBD(const std::string& nomeArquivo) {
     const char* nomeArquivoChar = nomeArquivo.c_str();
 
@@ -24,12 +23,11 @@ GerenciadorBD::GerenciadorBD(const std::string& nomeArquivo) {
     }
     else {
         std::cout << "Banco de dados aberto com sucesso!" << std::endl;
-        criarTabelaContas(); // <-- Renomeado
-        criarTabelaUsuarios(); // <-- Adicionado
+        criarTabelaContas();
+        criarTabelaUsuarios();
     }
 }
 
-// --- Destrutor (Sem mudanças) ---
 GerenciadorBD::~GerenciadorBD() {
     if (db != nullptr) {
         sqlite3_close(db);
@@ -231,4 +229,5 @@ bool GerenciadorBD::verificarLogin(const std::string& usuario, const std::string
         sqlite3_finalize(stmt);
         return false;
     }
+
 }
